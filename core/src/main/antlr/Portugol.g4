@@ -17,7 +17,7 @@ declaracao
     :   declaracaoVariavel | declaracaoArray | declaracaoMatriz ;
 
 declaracaoVariavel
-    : ID (OP_ATRIBUICAO expressao)? ;
+    : ID (OP_ATRIBUICAO expressao)? TIPO ;
 
 declaracaoMatriz
     : ID ABRE_COLCHETES linhaMatriz? FECHA_COLCHETES ABRE_COLCHETES colunaMatriz? FECHA_COLCHETES TIPO (OP_ATRIBUICAO inicializacaoMatriz)? ;
@@ -83,19 +83,19 @@ atribuicaoComposta
   
 
 se
-    :   SE  expressao  listaComandos (senao)? ;
+    :   SE  expressao  listaComandos FIMSE (senao)? ;
 	
 senao
 	:	SENAO listaComandos ;
 
 enquanto
-    :   ENQUANTO  expressao  listaComandos ; 
+    :   ENQUANTO  expressao  listaComandos FIMENQUANTO ; 
 
 para
-    :   PARA ABRE_PARENTESES inicializacaoPara? PONTOVIRGULA condicao PONTOVIRGULA incrementoPara FECHA_PARENTESES listaComandos ;
+    :   PARA  inicializacaoPara? ATE condicao listaComandos FIMPARA ;
 
 listaComandos
-    : (ABRE_CHAVES comando* FECHA_CHAVES | comando); // 1 comando ou um bloco de comandos entre chaves, possivelmente vazio
+    : ( comando* | comando); // 1 comando ou um bloco de comandos entre chaves, possivelmente vazio
 
 inicializacaoPara
     :   atribuicao                      // quando a variável é declarada fora do loop e apenas inicializada dentro dele
@@ -110,10 +110,10 @@ incrementoPara  // TODO essa estrutura se repete na lista de expressões
     :   expressao | atribuicaoComposta | atribuicao;
 
 escolha
-    :   ESCOLHA ABRE_PARENTESES expressao FECHA_PARENTESES ABRE_CHAVES caso* FECHA_CHAVES ;   
+    :   ESCOLHA expressao  caso* FACA FIMESCOLHA ;   
 
 caso
-    :   CASO (CONTRARIO | expressao) DOISPONTOS (comando* | ABRE_CHAVES comando* FECHA_CHAVES) pare? ;
+    :   CASO (CONTRARIO | expressao)  (comando* | comando*) pare?;
 
 pare
     : PARE ;
