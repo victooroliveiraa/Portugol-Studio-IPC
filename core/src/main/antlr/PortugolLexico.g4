@@ -6,12 +6,25 @@ TIPO:           'real' | 'inteiro' | 'logico' | 'literal' ;
 // Palavras reservadas
 FACA:           'faca' ;
 ENQUANTO:       'enquanto' ;
+FIMENQUANTO:    'fim-enquanto';
 PARA:           'para' ;
+FIMPARA         'fim-para';
+ATE:            'ate';
 SE:             'se' ;
+ENTAO:          'entao';
+FIMSE:          'fim-se';
 SENAO:          'senao' ;
 ESCOLHA:        'escolha' ;
+FIMESCOLHA:     'fim-escolha';
 CASO:           'caso' ;
-CONTRARIO:      'contrario' ;
+REPITA:         'repita';
+FIMREPITA:      'fim-repita';
+INICIOALGORITMO:'algoritmo';
+FIMALGORITMO    'fim-algoritmo';
+DECLARE         'declare';
+ESCREVA         'escreva';
+LEIA            'leia';
+
 
 OP_NAO:                 'nao' ;
 OP_E_LOGICO:            'e' ;

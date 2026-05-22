@@ -3,15 +3,15 @@ grammar Portugol;
 import PortugolLexico;
 
 arquivo 
-    :   PROGRAMABRE_CHAVES 
+    :   INICIOALGORITMO
         inclusaoBiblioteca* (declaracaoFuncao | listaDeclaracoes)* 
-        FECHA_CHAVES ;
+        FIMALGORITMO ;
 
 inclusaoBiblioteca
     : INCLUA BIBLIOTECA ID (OP_ALIAS_BIBLIOTECA ID)?;
 
 listaDeclaracoes
-    :  CONSTANTE? TIPO declaracao (VIRGULA declaracao)*;
+    :  CONSTANTE? declaracao (VIRGULA declaracao)* TIPO;
 
 declaracao
     :   declaracaoVariavel | declaracaoArray | declaracaoMatriz ;
@@ -20,7 +20,7 @@ declaracaoVariavel
     : ID (OP_ATRIBUICAO expressao)? ;
 
 declaracaoMatriz
-    : ID ABRE_COLCHETES linhaMatriz? FECHA_COLCHETES ABRE_COLCHETES colunaMatriz? FECHA_COLCHETES (OP_ATRIBUICAO inicializacaoMatriz)? ;
+    : ID ABRE_COLCHETES linhaMatriz? FECHA_COLCHETES ABRE_COLCHETES colunaMatriz? FECHA_COLCHETES TIPO (OP_ATRIBUICAO inicializacaoMatriz)? ;
 
 inicializacaoMatriz
     :  ABRE_CHAVES inicializacaoArray (VIRGULA inicializacaoArray)* FECHA_CHAVES;  
@@ -32,7 +32,7 @@ colunaMatriz
     :   tamanhoArray ;
 
 declaracaoArray
-    :   ID ABRE_COLCHETES tamanhoArray? FECHA_COLCHETES (OP_ATRIBUICAO inicializacaoArray)? ;
+    :   ID ABRE_COLCHETES tamanhoArray? FECHA_COLCHETES TIPO (OP_ATRIBUICAO inicializacaoArray)? ;
 
 inicializacaoArray
     :   ABRE_CHAVES listaExpressoes? FECHA_CHAVES ;
@@ -80,21 +80,16 @@ atribuicaoComposta
     |   expressao OP_MULTIPLICACAO_IGUAL expressao  #atribuicaoCompostaMultiplicacao
     |   expressao OP_DIVISAO_IGUAL expressao        #atribuicaoCompostaDivisao 
     ;
-
-retorne
-    :   RETORNE expressao? ;   
+  
 
 se
-    :   SE ABRE_PARENTESES expressao FECHA_PARENTESES listaComandos (senao)? ;
+    :   SE  expressao  listaComandos (senao)? ;
 	
 senao
 	:	SENAO listaComandos ;
 
 enquanto
-    :   ENQUANTO ABRE_PARENTESES expressao FECHA_PARENTESES listaComandos ; 
-
-facaEnquanto
-    :   FACA listaComandos ENQUANTO ABRE_PARENTESES expressao FECHA_PARENTESES ; 
+    :   ENQUANTO  expressao  listaComandos ; 
 
 para
     :   PARA ABRE_PARENTESES inicializacaoPara? PONTOVIRGULA condicao PONTOVIRGULA incrementoPara FECHA_PARENTESES listaComandos ;
@@ -158,12 +153,13 @@ expressao
     |   expressao E_COMERCIAL expressao                                                         #operacaoAndBitwise
     |   expressao OP_OU_BITWISE expressao                                                       #operacaoOrBitwise
     |   escopoBiblioteca? ID                                                                    #referenciaParaVariavel           // referência para variável
-    |   (INT | HEXADECIMAL)                                                                     #numeroInteiro 
+    |   (INTEIRO | HEXADECIMAL)                                                                     #numeroInteiro 
     |   REAL                                                                                    #numeroReal  
     |   LOGICO                                                                                  #valorLogico
     |   CARACTER                                                                                #caracter
-    |   STRING                                                                                  #string   
-    |   ABRE_PARENTESES expressao FECHA_PARENTESES                                              #expressaoEntreParenteses
+    |   
+    LITERAL                                                                                  #string   
+    
     ;
 
 listaExpressoes
