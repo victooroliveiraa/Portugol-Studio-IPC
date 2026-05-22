@@ -7,11 +7,8 @@ arquivo
         inclusaoBiblioteca* (declaracaoFuncao | listaDeclaracoes)* 
         FIMALGORITMO ;
 
-inclusaoBiblioteca
-    : INCLUA BIBLIOTECA ID (OP_ALIAS_BIBLIOTECA ID)?;
-
 listaDeclaracoes
-    :  CONSTANTE? declaracao (VIRGULA declaracao)* TIPO;
+    :   declaracao (VIRGULA declaracao)* TIPO;
 
 declaracao
     :   declaracaoVariavel | declaracaoArray | declaracaoMatriz ;
@@ -19,32 +16,22 @@ declaracao
 declaracaoVariavel
     : ID (OP_ATRIBUICAO expressao)? TIPO ;
 
-declaracaoMatriz
-    : ID ABRE_COLCHETES linhaMatriz? FECHA_COLCHETES ABRE_COLCHETES colunaMatriz? FECHA_COLCHETES TIPO (OP_ATRIBUICAO inicializacaoMatriz)? ;
+declaracaoMatriz // finalizado
+    : ID ABRE_COLCHETES linhaMatriz? FECHA_COLCHETES ABRE_COLCHETES colunaMatriz? FECHA_COLCHETES TIPO ;
 
-inicializacaoMatriz
-    :  ABRE_CHAVES inicializacaoArray (VIRGULA inicializacaoArray)* FECHA_CHAVES;  
-
-linhaMatriz
+linhaMatriz // finalizado
     :   tamanhoArray ;
 
-colunaMatriz
+colunaMatriz // finalizado
     :   tamanhoArray ;
 
-declaracaoArray
-    :   ID ABRE_COLCHETES tamanhoArray? FECHA_COLCHETES TIPO (OP_ATRIBUICAO inicializacaoArray)? ;
+declaracaoArray // finalizado
+    :   ID ABRE_COLCHETES tamanhoArray? FECHA_COLCHETES TIPO ;
 
-inicializacaoArray
-    :   ABRE_CHAVES listaExpressoes? FECHA_CHAVES ;
-
-tamanhoArray 
+tamanhoArray // finalizado
     :   expressao; // aceita inteiro ou variável como tamanho do array, o semântico verifica se a variável é constante
 
-declaracaoFuncao
-    :   FUNCAO TIPO? ID parametroFuncao ABRE_CHAVES comando* FECHA_CHAVES ; 
-
-parametroFuncao
-	:	ABRE_PARENTESES listaParametros? FECHA_PARENTESES ;
+   
 listaParametros
     :   parametro (VIRGULA parametro)* ;
 
@@ -83,13 +70,13 @@ atribuicaoComposta
   
 
 se
-    :   SE  expressao  listaComandos FIMSE (senao)? ;
+    :   SE  expressao ENTAO listaComandos FIMSE (senao)? ;
 	
 senao
 	:	SENAO listaComandos ;
 
 enquanto
-    :   ENQUANTO  expressao  listaComandos FIMENQUANTO ; 
+    :   ENQUANTO  expressao FACA listaComandos FIMENQUANTO ; 
 
 para
     :   PARA  inicializacaoPara? ATE condicao listaComandos FIMPARA ;
@@ -100,8 +87,7 @@ listaComandos
 inicializacaoPara
     :   atribuicao                      // quando a variável é declarada fora do loop e apenas inicializada dentro dele
     |   listaDeclaracoes              
-    |   ID
-; 
+    |   ID; 
 
 condicao
     :   expressao ;
@@ -110,7 +96,7 @@ incrementoPara  // TODO essa estrutura se repete na lista de expressões
     :   expressao | atribuicaoComposta | atribuicao;
 
 escolha
-    :   ESCOLHA expressao  caso* FACA FIMESCOLHA ;   
+    :   ESCOLHA expressao FACA caso* FIMESCOLHA ;   
 
 caso
     :   CASO (CONTRARIO | expressao)  (comando* | comando*) pare?;
