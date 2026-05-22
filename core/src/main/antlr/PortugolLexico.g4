@@ -1,29 +1,17 @@
 lexer grammar PortugolLexico;
 
-ABRE_PARENTESES:            '(' ;
-FECHA_PARENTESES:           ')' ;
-ABRE_COLCHETES:             '[' ;
-FECHA_COLCHETES:            ']' ;
-ABRE_CHAVES:                '{' ;
-FECHA_CHAVES:               '}' ; 
+// Tipos de dado
+TIPO:           'real' | 'inteiro' | 'logico' | 'literal' ;  
 
-TIPO:           'real' | 'inteiro' | 'vazio' | 'logico' | 'cadeia' | 'caracter' ; 
-
+// Palavras reservadas
 FACA:           'faca' ;
 ENQUANTO:       'enquanto' ;
 PARA:           'para' ;
 SE:             'se' ;
 SENAO:          'senao' ;
-CONSTANTE:      'const' ;
-FUNCAO:         'funcao' ;
-PROGRAMA:       'programa' ;
 ESCOLHA:        'escolha' ;
 CASO:           'caso' ;
 CONTRARIO:      'contrario' ;
-PARE:           'pare' ;
-RETORNE:        'retorne';
-INCLUA:         'inclua' ;
-BIBLIOTECA:     'biblioteca' ;
 
 OP_NAO:                 'nao' ;
 OP_E_LOGICO:            'e' ;
@@ -32,24 +20,14 @@ OP_SUBTRACAO:           '-' ;
 OP_ADICAO:              '+' ;
 OP_MULTIPLICACAO:       '*' ;
 OP_DIVISAO:             '/' ;
-OP_MOD:                 '%' ;
-OP_ATRIBUICAO:          '=' ;
-OP_IGUALDADE:           '==' ;
-OP_DIFERENCA:           '!=' ;
+OP_MOD:                 'mod' ;
+OP_ATRIBUICAO:          '<-' ;
+OP_IGUALDADE:           '=' ;
+OP_DIFERENCA:           '<>' ;
 OP_MAIOR:               '>' ;
 OP_MENOR:               '<' ;
 OP_MENOR_IGUAL:         '<=' ;
 OP_MAIOR_IGUAL:         '>=' ;
-OP_INCREMENTO_UNARIO:   '++' ;
-OP_DECREMENTO_UNARIO:   '--' ;
-OP_SHIFT_LEFT:          '<<' ;
-OP_SHIFT_RIGHT:         '>>' ;
-OP_XOR:                 '^' ;
-OP_OU_BITWISE:          '|' ;
-OP_NOT_BITWISE:         '~' ;
-OP_ALIAS_BIBLIOTECA:    '-->' ;
-E_COMERCIAL:            '&' ;
-
 OP_MAIS_IGUAL:          '+=' ;
 OP_MENOS_IGUAL:         '-=' ;
 OP_MULTIPLICACAO_IGUAL: '*=' ;
@@ -60,7 +38,6 @@ LOGICO: VERDADEIRO | FALSO ;
 VERDADEIRO:    'verdadeiro' ;
 FALSO:         'falso' ;
 
-CARACTER:               '\'' ( ESC_CARACTER | ~('\'')) '\'' ;
 
 fragment SEQ_ESC:       '\\' [btnrf"\\]   |   ESC_UNICODE  |   ESC_OCTAL   ;
 
@@ -72,7 +49,7 @@ fragment ESC_CARACTER:  SEQ_ESC | '\\\'' ;
 
 fragment DIGIT_HEX: ('0'..'9'|'a'..'f'|'A'..'F') ;
 
-STRING : '"' ( SEQ_ESC | . )*? '"' ;
+LITERAL : '"' ( SEQ_ESC | . )*? '"' ;
 
 ID:             (LETRA | '_') (LETRA | [0-9] | '_')* ;
 
@@ -84,7 +61,7 @@ REAL:   DIGITO+ '.' DIGITO*
 
 fragment DIGITO: [0-9] ; 
 
-INT:    DIGITO+ { 
+INTEIRO:    DIGITO+ { 
     try {
         Integer.parseInt(getText());
     }

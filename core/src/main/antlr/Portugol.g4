@@ -3,7 +3,7 @@ grammar Portugol;
 import PortugolLexico;
 
 arquivo 
-    :   PROGRAMA ABRE_CHAVES 
+    :   PROGRAMABRE_CHAVES 
         inclusaoBiblioteca* (declaracaoFuncao | listaDeclaracoes)* 
         FECHA_CHAVES ;
 
